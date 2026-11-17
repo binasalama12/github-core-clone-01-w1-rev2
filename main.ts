@@ -430,6 +430,8 @@ function writePack(objects: { t: ObjType; d: Buffer }[]): Buffer {
 // Inflate one zlib stream starting at `offset`, finding its exact length by
 // exponential search plus bisection (inflateSync ignores trailing bytes, and
 // throws on a truncated stream, so the shortest working prefix is the stream).
+// The returned length marks the pack object boundary: the next object in
+// the pack begins exactly that many bytes after `offset`.
 function inflateAt(buf: Buffer, offset: number): { data: Buffer; length: number } {
   // One inflate over the remaining bytes: the zlib engine stops at the
   // stream's own end marker and reports exactly how many input bytes it
